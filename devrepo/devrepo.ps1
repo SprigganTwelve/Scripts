@@ -2,8 +2,8 @@ param(
     [Parameter(Position = 0)]
     [string]$Command,
 
-    [Parameter(Position = 1)]
-    [string]$Argument
+    [Parameter(Position = 1, ValueFromRemainingArguments)]
+    [string[]]$Arguments
 )
 
 $Commands = @(
@@ -18,7 +18,6 @@ $ScriptRootPath = "commands"
 
 
 
-
 #-- Default Behaviour
 if(-not $Command){
     & "$PSScriptRoot\$ScriptRootPath\List.ps1"
@@ -27,21 +26,22 @@ if(-not $Command){
 
 
 #-- Process Requests
-if($Command -and $Commands -notcontains $Command){
-    $Argument = $Command
+if( $Commands -notcontains $Command){
+    $Arguments = @($Command) + $Arguments
     $Command = "open"
 }
 
 
+
 switch ($Command) {
     "open" {
-        & "$PSScriptRoot\$ScriptRootPath\Open.ps1" $Argument
+        & "$PSScriptRoot\$ScriptRootPath\Open.ps1" $Arguments
     }
     "list" {
         & "$PSScriptRoot\$ScriptRootPath\List.ps1"
     }
     "add"{
-        & "$PSScriptRoot\$ScriptRootPath\Add.ps1"
+        & "$PSScriptRoot\$ScriptRootPath\add\Add.ps1" $Arguments
     }
     Default {
         Write-Host "Commande inconnue : $Command"

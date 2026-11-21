@@ -57,3 +57,14 @@ Start-Process "code" "."
 Write-Host "Projet prêt !" -ForegroundColor Green
 
 ```
+
+- devrepo.json
+Moreover devrepo posses a config file that can be used to manage
+the way its work.
+
+```json
+{
+    "version"=1
+    "root_path"="<<path>>" #indicates where the track files are registered
+}
+```
